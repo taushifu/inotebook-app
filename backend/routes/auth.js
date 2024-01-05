@@ -9,7 +9,7 @@ const fetchuser = require('../middleware/fetchuser');
 const JWT_SECRET = process.env.JWT_SECRET;
 
 
-//ROUTE 1: To create new user
+//ROUTE 1: To create new user (Login not required)
 router.post('/createuser', [
     check('name', 'name must not be empty').notEmpty(),
     check('email').isEmail(),
@@ -43,7 +43,7 @@ router.post('/createuser', [
 
             //sending JWT to the user for authentication purposes
             const data = {
-                newUser: {
+                user: {
                     id: newUser.id
                 }
             }
@@ -58,7 +58,7 @@ router.post('/createuser', [
     });
 
 
-//ROUTE 2: To login existing user
+//ROUTE 2: To login existing user (Login not required)
 router.post('/login', [
     check('email', 'Enter a valid email.').isEmail()
 ],
@@ -102,7 +102,7 @@ router.post('/login', [
     });
 
 
-//ROUTE 3: To get user information from the received JWT token
+//ROUTE 3: To get user information from the received JWT token (Login required)
 router.post('/getuser', fetchuser, async (req, res) => {
     try {
         const userId = req.user.id;
